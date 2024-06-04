@@ -28,21 +28,62 @@ class Dashboard extends CI_Controller {
 
     public function detail_pesanan(){
 
-    $this->load->view('template/header');
+    $data['judul'] = 'WARUNG STEAK';
+    $this->load->view('template/header', $data);
     $this->load->view('template/sidebar');
     $this->load->view('pesanan');
     $this->load->view('template/footer');
     }
 
-    public function hapus_pesanan(){
+    function update_jumlah_menu(){
+        $update = 0;
         
-        $this->cart->destroy();
-        redirect('dashboard');
+        // Get cart item info
+        $rowid = $this->input->get('rowid');
+        $qty = $this->input->get('qty');
+        
+        // Update item in the cart
+        if(!empty($rowid) && !empty($qty)){
+            $data = array(
+                'rowid' => $rowid,
+                'qty'   => $qty
+            );
+            $update = $this->cart->update($data);
+        }
+        
+        // Return response
+        echo $update?'ok':'err';
     }
 
-    public function pembayaran(){
+    function hapus_item_keranjang($rowid){
+        // Remove item from cart
+        $remove = $this->cart->remove($rowid);
+        
+        // Redirect to the cart page
+        redirect('dashboard/detail_pesanan/');
+    }
 
-        $this->load->view('template/header');
+
+
+//     function hapus_item_keranjang($rowid) {   
+//         $data = array(
+//             'rowid'   => 'b99ccdf16028f015540f341130b6d8ec',
+//             'qty'     => 0
+//         );
+
+//         $this->cart->update($data);
+//         redirect('dashboard/detail_pesanan');
+// }
+
+    // public function hapus_pesanan(){
+        
+    //     $this->cart->destroy();
+    //     redirect('dashboard');
+    // }
+
+    public function pembayaran(){
+        $data['judul'] = 'WARUNG STEAK';
+        $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('pembayaran');
         $this->load->view('template/footer');
