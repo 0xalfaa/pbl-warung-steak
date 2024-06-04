@@ -52,20 +52,31 @@ class Data_menu extends CI_Controller {
         $NAMA_MENU = $this->input->post('NAMA_MENU', true);
         $HARGA = $this->input->post('HARGA', true);
         $STOK = $this->input->post('STOK', true);
+        $config['upload_path'] = 'uploads/';
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
+        $config['max_size'] = 2048; // 2MB
 
-        $data = array(
-            'NAMA_MENU' => $NAMA_MENU,
-            'HARGA' => $HARGA,
-            'STOK' => $STOK
-        );
+        $this->upload->initialize($config);
 
-        $where = array(
-            'ID_MENU' => $id
-        );
-        
-        $this->Model_menu->update_data($where,$data, 'menu');
-        redirect('admin/data_menu/');
-    }
+        if (!$this->upload->do_upload('FOTO')) {
+            var_dump ($this->upload->display_errors());
+            
+        } else {
+            $data = array(
+                'NAMA_MENU' => $NAMA_MENU,
+                'HARGA' => $HARGA,
+                'STOK' => $STOK,
+                'FOTO' => $this->upload->data('file_name')
+            );
+
+            $where = array(
+                'ID_MENU' => $id
+            );
+    
+            $this->Model_menu->update_data($where,$data, 'menu');
+            redirect('admin/data_menu/');
+        }
+    }  
 
     public function menu_hapus($id) {
 
