@@ -1,31 +1,39 @@
-<div class="container-fluid">
+<div class="main-content">
+  <section class="section">
+    <div class="section-header">
+      <h1>Data Menu</h1>
+    </div>
 
-<button class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#tambah_menu"><i class="fas fa-plus fa-sm"></i> Tambah Menu</button>
+<button class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#tambah_menu"></i> Tambah Menu</button>
 
-<table class="table table-bordered">
-  <tr>
+<table class="table table-hover table-striped">
+  <thead>
     <th>NO</th>
+    <th>GAMBAR</th>
     <th>NAMA MENU</th>
     <th>HARGA</th>
     <th>STOK</th>
     <th colspan="3">AKSI</th> 
-  </tr>
-  <?php 
+  </thead>
+  <tbody>
+    <?php 
   $no=1;
   foreach ($menu as $m) : ?>
-
-    <tr>
+      <tr>
         <td><?php echo $no++ ?></td>
+        <td><img width="100px" src="<?php echo base_url().'/uploads/'.$m->FOTO?>"></td>
         <td><?php echo $m->NAMA_MENU?></td>
         <td><?php echo $m->HARGA?></td>
         <td><?php echo $m->STOK?></td>
-        <td><div class="btn btn-success btn-sm"><i class="fas fa-search-plus"></i> </div></td>
-        <td><?php echo anchor('admin/data_menu/edit_menu/'.$m->ID_MENU, '<div class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> </div>')?></td>
-        <td><?php echo anchor('admin/data_menu/menu_hapus/' .$m->ID_MENU, ' <div class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> </div>')?></td>
-       
-  </tr>
+        <td>
+        <?php echo anchor('admin/data_menu/edit_menu/'.$m->ID_MENU, '<div class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> </div>')?>
+        <?php echo anchor('admin/data_menu/menu_hapus/' .$m->ID_MENU, ' <div class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> </div>')?>
+        </td>
+      </tr>
     <?php endforeach?>
+  </tbody>
 </table>
+</section>
 </div>
 
 <!-- Modal -->
@@ -57,8 +65,6 @@
             <label>Foto Menu</label>
             <input type="file" name="FOTO" class="form-control">
         </div>
-
-       
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
